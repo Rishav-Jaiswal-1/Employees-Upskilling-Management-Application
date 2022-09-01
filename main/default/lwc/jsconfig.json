@@ -1,0 +1,50 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/employee": [
+                "employee/employee.js"
+            ],
+            "c/certification": [
+                "certification/certification.js"
+            ],
+            "c/Certification": [
+                "Certification/Certification.js"
+            ],
+            "c/voucher": [
+                "voucher/voucher.js"
+            ],
+            "c/Voucher": [
+                "Voucher/Voucher.js"
+            ],
+            "c/certificationRequest": [
+                "certificationRequest/certificationRequest.js"
+            ],
+            "c/CertificationRequest": [
+                "CertificationRequest/CertificationRequest.js"
+            ],
+            "c/chart": [
+                "chart/chart.js"
+            ],
+            "c/Chart": [
+                "Chart/Chart.js"
+            ],
+            "c/opportunityBarChart": [
+                "opportunityBarChart/opportunityBarChart.js"
+            ],
+            "c/Paginator": [
+                "Paginator/Paginator.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}

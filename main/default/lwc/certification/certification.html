@@ -1,0 +1,101 @@
+<template>
+    <template if:false={isedit}>
+        <lightning-card title="Certification List" icon-name="utility:list">
+            <template if:true={certifications}>
+                    <div style="width: auto;" class="slds-m-around_medium">
+                        <table class="slds-table slds-table_bordered slds-p-top_x-small slds-border_left slds-border_right" >
+                        <tr><td><lightning-input label="Search" onchange={handleChange}
+                            placeholder="Search Certificate By Id !" value={sstext}></lightning-input></td>
+                            <td> <lightning-button label="Add Certificate" icon-name="utility:add" onclick={addEmp}></lightning-button></td>
+                            <td><lightning-button variant="brand"
+                                label="Chart" onclick={openModal} class="slds-m-left_x-small" icon-name="utility:chart">
+                             </lightning-button>
+                             <!--Use template if:true to display/hide popup based on isModalOpen value--> 
+                             </td>
+                        </tr>
+                        </table>    
+                        <template if:true={isModalOpen}>
+                            <!-- Modal/Popup Box LWC starts here -->
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                <div class="slds-modal__container">
+                                    <!-- Modal/Popup Box LWC header here -->
+                                    <header class="slds-modal__header">
+                                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                            <lightning-icon icon-name="utility:close"
+                                                alternative-text="close"
+                                                variant="inverse"
+                                                size="small" ></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                        </button>
+                                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal/PopUp Box header LWC</h2>
+                                    </header>
+                                    <!-- Modal/Popup Box LWC body starts here -->
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                        <c-opportunity-bar-chart></c-opportunity-bar-chart>
+                                    </div>
+                                    <!-- Modal/Popup Box LWC footer starts here -->
+                                    <footer class="slds-modal__footer">
+                                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                                    </footer>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>            
+                    <table class="slds-table slds-table_bordered slds-p-top_x-small slds-border_left slds-border_right" >
+                        <tr>
+                            <th><div class="slds-truncate">Sl. No.</div></th>
+                            <th><div class="slds-truncate">Certificate Id</div></th>
+                         <!--   <th><div class="slds-truncate">Image</div></th>  -->
+                            <th><div class="slds-truncate">Name</div></th>
+                            <th><div class="slds-truncate">Cost</div></th>
+                            <th><div class="slds-truncate">Comments</div></th>
+                            <th><div class="slds-truncate">Update</div></th>
+                            <th><div class="slds-truncate">Delete</div></th>
+                        </tr>
+                        <template for:each={certifications} for:item="tr" for:index="t">
+                        <tr key={tr.Id}>
+                            <!-- <td><input type="button" value={tr.Id} onclick={dosomething}></td> -->
+                            <td><div class="slds-truncate" onclick={viewrec} data-value={tr.Id}><lightning-button icon-name="action:preview" ></lightning-button></div></td>
+                            <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Name}</div></td>  
+                          <!--  <td class="imagee"><lightning-formatted-rich-text value={tr.Image__c} alt="NoImage"></lightning-formatted-rich-text></td>  -->
+                            <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Cert_Name__c}</div></td>
+                            <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Cost__c}</div></td>
+                            <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Comments__c}</div></td>
+                            <td><div class="slds-truncate" onclick={editEmp} data-value={tr.Id}><lightning-button label="Edit" icon-name="utility:edit"></lightning-button></div></td>
+                            <td><div class="slds-truncate" onclick={deleteEmp} data-value={tr.Id}><lightning-button label="Delete" variant="destructive" icon-name="utility:delete"></lightning-button></div></td>
+                            
+                         </tr>
+                    </template>
+                </table>
+                    </div>
+                <br/>
+                </template>
+    
+                <template if:true={error}>
+                    {error}
+                </template>
+     
+    </lightning-card>
+    
+        </template>
+            <template if:true={isedit}>             
+                             <div style="margin: auto;">
+                                <lightning-record-edit-form record-id={id_str} object-api-name="Certification__c" onsuccess={handleEmployeeEdited}>
+                                    <div class="slds-m-around_medium">
+                                        <lightning-messages>
+                                        </lightning-messages>
+                                        <lightning-input-field field-name='Name'></lightning-input-field>
+                                        <lightning-input-field field-name='Cert_Name__c'></lightning-input-field>
+                                        <lightning-input-field field-name='Cost__c'></lightning-input-field>
+                                        <lightning-input-field field-name='Comments__c' ></lightning-input-field>
+                                        <br>
+                                        <center>
+                                                <lightning-button class="slds-m-top_small" type="submit" label="Update Certificate" variant="success"></lightning-button>
+                                            </center>
+                                    </div>
+                                </lightning-record-edit-form>
+                            </div>
+            
+        
+        </template>
+</template>

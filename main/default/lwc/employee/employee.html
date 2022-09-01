@@ -1,0 +1,116 @@
+<template>
+    <!--
+    <lightning-card title="Employees" icon-name="custom:custom60">
+        <div class="slds-col">
+           <span><p style="margin-left: 5%">Selected Records: <b style="color:red;">{recordsCount}</b></p></span>
+         </div>
+        <lightning-button-group slot="actions">
+           <lightning-button title="new-employee" label="New" onclick={openModal}></lightning-button>
+           <lightning-button title="delete-records" 
+           label={buttonLabel} 
+           icon-name="utility:delete"
+           disabled={isTrue}
+           variant="destructive" 
+           onclick={deleteEmployees}></lightning-button>
+        </lightning-button-group>  
+          
+          <div class="slds-m-around_medium">
+              <template if:true={employee.data}>
+                  <lightning-datatable 
+                  key-field="Id"
+                  data={employee.data}
+                  columns={columns}
+                  onsave={handleSave}
+                  draft-values={draftValues}
+                  onpicklistchanged={handleSave} 
+                  onrowselection={getSelectedRecords}>
+              </lightning-datatable>
+              </template>
+              <template if:true={employee.error}>
+                  
+              </template>
+          </div>
+      </lightning-card>
+    -->
+
+    <template if:false={isedit}>
+    <lightning-card title="Employees List" icon-name="utility:list">
+        <template if:true={employees}>
+                <div style="width: auto;" class="slds-m-around_medium">
+                    <table class="slds-table slds-table_bordered slds-p-top_x-small slds-border_left slds-border_right" >
+                    <tr><td><lightning-input label="Search" onchange={handleChange}
+                        placeholder="Search Employee By Id !" value={sstext}></lightning-input></td>
+                        <td> <lightning-button label="Add Employee" icon-name="utility:add" onclick={addEmp}></lightning-button></td>
+                        <td><lightning-button label="Previous" icon-name="utility:chevronleft" onclick={previousHandler2}></lightning-button></td>
+                        <td><lightning-button label="Next" icon-name="utility:chevronright" onclick={nextHandler2}></lightning-button></td>
+                    </tr>
+                    </table>    
+                              
+                <table class="slds-table slds-table_bordered slds-p-top_x-small slds-border_left slds-border_right" >
+                    <tr>
+                        <th><div class="slds-truncate">Sl. No.</div></th>
+                        <th><div class="slds-truncate">Employee Id</div></th>
+                     <!--   <th><div class="slds-truncate">Image</div></th>  -->
+                        <th><div class="slds-truncate">Name</div></th>
+                        <th><div class="slds-truncate">Email</div></th>
+                        <th><div class="slds-truncate">Primary Skill</div></th>
+                        <th><div class="slds-truncate">Experience</div></th>
+                        <th><div class="slds-truncate">Secondary Skill</div></th>
+                        <th><div class="slds-truncate">Update</div></th>
+                        <th><div class="slds-truncate">Delete</div></th>
+                    </tr>
+                    <template for:each={employees} for:item="tr" for:index="t">
+                    <tr class="image" key={tr.Id}>
+                        <!-- <td><input type="button" value={tr.Id} onclick={dosomething}></td> -->
+                        <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}><lightning-input type="checkbox" label={t} name="input1"></lightning-input></div></td>
+                        <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Name}</div></td>  
+                      <!--  <td class="imagee"><lightning-formatted-rich-text value={tr.Image__c} alt="NoImage"></lightning-formatted-rich-text></td>  -->
+                        <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Emp_Name__c}</div></td>
+                        <td><lightning-formatted-email value={tr.Employee_Email__c} hide-icon></lightning-formatted-email></td> 
+                        <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Primary_Skill__c}</div></td>
+                        <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Experience__c}</div></td>
+                        <td><div class="slds-truncate" onclick={removeItem} data-value={tr.Id}>{tr.Secondary_Skill__c}</div></td>
+                        <td><div class="slds-truncate" onclick={editEmp} data-value={tr.Id}><lightning-button label="Edit" icon-name="utility:edit"></lightning-button></div></td>
+                        <td><div class="slds-truncate" onclick={deleteEmp} data-value={tr.Id}><lightning-button label="Delete" variant="destructive" icon-name="utility:delete"></lightning-button></div></td>
+                        
+                     </tr>
+                </template>
+            </table>
+                </div>
+            <br/>
+            </template>
+
+            <template if:true={error}>
+                {error}
+            </template>
+            <br/>
+
+          <!--  <c-paginator  onprevious={previousHandler2} onnext={nextHandler2} onselected={changeHandler2} onfirstpage={firstpagehandler} onlastpage={lastpagehandler}></c-paginator> -->
+</lightning-card>
+
+    </template>
+        <template if:true={isedit}>             
+                         <div style="margin: auto;">
+                            <lightning-record-edit-form record-id={id_str} object-api-name="Employee__c" onsuccess={handleEmployeeEdited}>
+                                <div class="slds-m-around_medium">
+                                    <lightning-messages>
+                                    </lightning-messages>
+                                    <lightning-input-field field-name='Name'></lightning-input-field>
+                                    <lightning-input-field field-name='Emp_Name__c'></lightning-input-field>
+                                    <lightning-input-field field-name='Employee_Email__c'></lightning-input-field>
+                                    <lightning-input-field field-name='Primary_Skill__c'></lightning-input-field>
+                                    <lightning-input-field field-name='Experience__c'></lightning-input-field>
+                                    <lightning-input-field field-name='Secondary_Skill__c' ></lightning-input-field>
+                                    <lightning-input-field field-name='Comments__c' ></lightning-input-field>
+                                    <br>
+                                    <center>
+                                            <lightning-button class="slds-m-top_small" type="submit" label="Update Employee" variant="success"></lightning-button>
+                                        </center>
+                                </div>
+                            </lightning-record-edit-form>
+                        </div>
+        
+    
+    </template>
+
+</template>
